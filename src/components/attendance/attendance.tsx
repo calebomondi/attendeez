@@ -1,6 +1,6 @@
 import apiService from "../../services/apiService";
 import { useEffect, useState } from "react";
-import { TodaysClassesStatus, ClassEndTime } from "../../types";
+import { TodaysClassesStatus } from "../../types";
 import ConfirmStudentAttendance from "../home/confirmAttendance";
 import SignInAttendance from "./signin";
 import NavBar from "../navbar/navbar";

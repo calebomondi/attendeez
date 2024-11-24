@@ -1,8 +1,6 @@
 import apiService from "../../services/apiService"
 import { UploadAttendance } from "../../types"
 
-let upload :boolean[] = []
-
 const limit = 5
 
 interface StudentData {
