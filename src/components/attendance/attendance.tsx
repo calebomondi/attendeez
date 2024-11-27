@@ -5,6 +5,8 @@ import ConfirmStudentAttendance from "../home/confirmAttendance";
 import SignInAttendance from "./signin";
 import NavBar from "../navbar/navbar";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Attendance({student_id} : {student_id:string}) {
   const url = new URL(window.location.href);
@@ -63,11 +65,12 @@ export default function Attendance({student_id} : {student_id:string}) {
   const handleAttend = async () => {
     const result = await apiService.postJoinSession(String(unit),student_id)
     if(result.success)
-      console.log('Am attending!')
+      toast.success("You Have Joined This Class Session.");
   }
 
   return (
     <>
+    <ToastContainer />
     <NavBar />
     <main className="w-full mt-1 flex justify-center flex-col items-center p-2">
       {
@@ -110,7 +113,7 @@ export default function Attendance({student_id} : {student_id:string}) {
                                 <ConfirmStudentAttendance unit_id={item.units.unit_id} student_id={student_id}/>
                               </p>
                             ) : (
-                              <button className="btn btn-success" onClick={() => handleAttend()}>Am Attending</button>
+                              <button className="btn btn-success text-white" onClick={() => handleAttend()}>Am Attending</button>
                             )
                           )
                         }
