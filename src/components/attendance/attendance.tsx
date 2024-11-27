@@ -17,18 +17,8 @@ export default function Attendance({student_id} : {student_id:string}) {
 
   const [attending,setAttending] = useState<boolean>(false)
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-
   const [before,setBefore] = useState<boolean>(false)
 
-
-  const showModal = () => {
-    setIsOpen(true);
-  };
-
-  const hideModal = () => {
-    setIsOpen(false);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +63,7 @@ export default function Attendance({student_id} : {student_id:string}) {
   const handleAttend = async () => {
     const result = await apiService.postJoinSession(String(unit),student_id)
     if(result.success)
-      showModal()
+      console.log('Am attending!')
   }
 
   return (
