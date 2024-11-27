@@ -114,22 +114,14 @@ export default function Attendance({student_id} : {student_id:string}) {
                             )
                             
                           ) : (
-                            <>
+                            before ? (
+                              <p className="flex justify-evenly w-1/2">
+                                ended BT
+                                <ConfirmStudentAttendance unit_id={item.units.unit_id} student_id={student_id}/>
+                              </p>
+                            ) : (
                               <button className="btn btn-success" onClick={() => handleAttend()}>Am Attending</button>
-                              {
-                                isOpen && (
-                                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                    <div className="bg-teal-600 p-6 rounded-lg shadow-lg max-w-sm w-full">
-                                      <h2 className="text-xl font-bold mb-4 text-white">{student_id}</h2>
-                                      <p className="mb-4 text-white"> You Have Joined {String(unit)} Classsesion </p>
-                                      <form method="dialog" className="text-right">
-                                        <button onClick={hideModal} className="btn bg-white border-none text-slate-600 hover:text-white"> Close </button>
-                                      </form>
-                                    </div>
-                                  </div>
-                                )
-                              }
-                            </>
+                            )
                           )
                         }
                       </div>
