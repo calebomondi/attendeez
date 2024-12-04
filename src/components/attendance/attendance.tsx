@@ -14,13 +14,9 @@ export default function Attendance({student_id} : {student_id:string}) {
   const unit = params.get('unit');
 
   const [data, setData] = useState<TodaysClassesStatus[]>([])
-
-  const [active,setActive] = useState<boolean>(false)
-
-  const [attending,setAttending] = useState<boolean>(false)
-
-  const [before,setBefore] = useState<boolean>(false)
-
+  const [active, setActive] = useState<boolean>(false)
+  const [attending, setAttending] = useState<boolean>(false)
+  const [before, setBefore] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,40 +28,64 @@ export default function Attendance({student_id} : {student_id:string}) {
       }
     };
 
+    const checkCurrentClassActive = async () => {
+      if (unit) {
+        try {
+          const result = await apiService.getConfirmActiveClass(String(unit))
+          if (result.length > 0)
+            setActive(true)
+        } catch (error) {
+          console.error('Error checking active class', error)
+        }
+      }
+    }
+
+    const amAttending = async () => {
+      if (unit) {
+        try {
+          const result = await apiService.checkInAttendance(String(unit), student_id)
+          if (result.started)
+            setAttending(true)
+        } catch (error) {
+          console.error('Error checking attendance', error)
+        }
+      }
+    }
+
+    const ifSessionEndBeforeTime = async () => {
+      if (unit) {
+        try {
+          const check = await apiService.endBeforeTime(String(unit))
+          console.log(`beforeTime: ${check.session_end}`)
+          if (check)
+            setBefore(check.session_end)
+        } catch (error) {
+          console.error('Error checking session end time', error)
+        }
+      }
+    }
+
     fetchData();
-
-  },[]);
-
-  const checkCurrentClassActive = async () => {
-      const result = await apiService.getConfirmActiveClass(String(unit))
-      if (result.length > 0)
-        setActive(true)
-  }
-  checkCurrentClassActive()
-
-  const amAttending = async () => {
-    const result = await apiService.checkInAttendance(String(unit),student_id)
-      if (result.started)
-        setAttending(true)
-  }
-  amAttending()
-
-  const ifSessionEndBeforeTime = async () => {
-    const check = await apiService.endBeforeTime(String(unit))
-    console.log(`beforeTime: ${check.session_end}`)
-    if (check)
-        setBefore(check.session_end)
-  }
-  ifSessionEndBeforeTime()
+    checkCurrentClassActive();
+    amAttending();
+    ifSessionEndBeforeTime();
+  }, [unit, student_id]);
 
   //filter to get specific session
   const selectedClass = data.filter(item => item.units.unit_id === unit)
 
   //handle attend
   const handleAttend = async () => {
-    const result = await apiService.postJoinSession(String(unit),student_id)
-    if(result.success)
-      toast.success("You Have Joined This Class Session.");
+    if (unit) {
+      try {
+        const result = await apiService.postJoinSession(String(unit), student_id)
+        if(result.success)
+          toast.success("You Have Joined This Class Session.");
+      } catch (error) {
+        console.error('Error joining session', error)
+        toast.error("Failed to join the session.");
+      }
+    }
   }
 
   return (
@@ -81,7 +101,7 @@ export default function Attendance({student_id} : {student_id:string}) {
               <p className="flex justify-center p-1">{item.units.unit_name}</p>
               <p className="flex justify-center p-1">{item.start_time} - {item.end_time}</p>
               <p className="flex justify-center p-1">{item.classroom_id}</p>
-              <p className="flex justify-center my-3"><hr className="w-1/2 border-t-2 border-teal-500"/></p>
+              <div className="flex justify-center p-1"><hr className="w-1/2 border-t-2 border-teal-500"/></div>
               {
                 item.status === 0 ? (
                   <p className="flex justify-evenly my-3">
