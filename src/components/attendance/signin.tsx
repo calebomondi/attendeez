@@ -3,9 +3,13 @@ import { ClassEndTime} from "../../types"
 import { useEffect, useState } from "react"
 import apiService from "../../services/apiService"
 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 //import addMeToList from "./addMeToList"
 //import isWithinTimeLimit from "./withinTimeLimit"
 import generateQRCode from "./generateqr"
+import QRScanner from "./zxing"
 
 export default function SignInAttendance({unit_id, started, student_id}:{unit_id:string, started:boolean, student_id:string}) {
     
@@ -26,7 +30,22 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
 
     },[unit_id]);
 
+    const handleScan = (result: string) => {
+        if (result.length > 0) {
+            toast.success('SCANNED SUCCESS!')
+            const jsonObj = JSON.parse(result)
+            setScannedData(jsonObj)
+        }
+    };
+
+    const handleError = (error: Error) => {
+        console.error('QR Scan Error:', error)
+        toast.error(`${error}`)
+    };
+
   return (
+    <>
+    <ToastContainer />    
     <div className={`w-full md:w-1/4 ${data.session_end ? 'border border-teal-500 rounded-lg' : ''} flex flex-col justify-center mt-2 p-2`}>
         {
             //generate qr
@@ -46,11 +65,14 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
             //scan qr
             data.session_end && started && (
                 <div className="">
-                    Scanner Goes Here!
-                    {student_id}
+                    <QRScanner 
+                        onScan={handleScan} 
+                        onError={handleError} 
+                    />
                 </div>
             )
         }
     </div>
+    </>
   )
 }
