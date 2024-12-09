@@ -64,7 +64,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         {
             //scan qr
             data.session_end && started && (
-                <div className="">
+                <div className="p-2">
                     <QRScanner 
                         onScan={handleScan} 
                         onError={handleError} 
