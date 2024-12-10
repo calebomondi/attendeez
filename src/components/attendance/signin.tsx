@@ -14,7 +14,7 @@ import QRScanner from "./zxing"
 export default function SignInAttendance({unit_id, started, student_id}:{unit_id:string, started:boolean, student_id:string}) {
     
     const [data,setData] = useState<ClassEndTime>({"end_time":"","session_end":false,"date":"1999-12-31"})
-    const [scannedData, setScannedData] = useState<{ id: string[] }>({ id: [student_id.split("-")[1]] });
+    const [scannedData, setScannedData] = useState<string[]>([student_id.split("-")[1]]);
 
     //check if session ended
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
 
     const handleScan = (result: string) => {
         if (result.length > 0) {
-            toast.success('SCANNED SUCCESS!')
+            toast.success(`scan success -> ${result}`)
             const jsonObj = JSON.parse(result)
             setScannedData(jsonObj)
         }
