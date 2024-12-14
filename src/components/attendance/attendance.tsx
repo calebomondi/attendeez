@@ -121,7 +121,7 @@ export default function Attendance({student_id} : {student_id:string}) {
                               </p>
                             ) : (
                               <p className="flex flex-row justify-center items-center">
-                                <span className="font-mono mr-1">You Are In attendance</span>
+                                <span className="font-mono mr-1">You Are In Session</span>
                                 <span className="loading loading-ring loading-md"></span>
                               </p>
                             )
@@ -133,7 +133,7 @@ export default function Attendance({student_id} : {student_id:string}) {
                                 <ConfirmStudentAttendance unit_id={item.units.unit_id} student_id={student_id}/>
                               </p>
                             ) : (
-                              <button className="btn btn-success text-white" onClick={() => handleAttend()}>Am Attending</button>
+                              <button className="btn btn-success text-white" onClick={() => handleAttend()}>Join Session</button>
                             )
                           )
                         }
