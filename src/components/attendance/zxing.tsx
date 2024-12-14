@@ -6,6 +6,9 @@ import {
 } from "@zxing/library";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 interface QRScannerProps {
     onScan?: (result: string) => void;
     onError?: (error: Error) => void;
@@ -55,6 +58,7 @@ const QRScanner: React.FC<QRScannerProps> = ({
                 (result, error) => {
                     if (result) {
                         onScan(result.getText());
+                        toast.success(`Scanned ${result.getText()}`)
                         stopScanning();
                     }
                     if (error) {
@@ -101,6 +105,8 @@ const QRScanner: React.FC<QRScannerProps> = ({
     };
 
     return (
+        <>
+        <ToastContainer />
         <div className="qr-scanner p-4 flex flex-col justify-center align-middle">
             <video
                 ref={videoRef}
@@ -134,6 +140,7 @@ const QRScanner: React.FC<QRScannerProps> = ({
                 )}
             </div>
         </div>
+        </>
     );
 };
 
