@@ -46,7 +46,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
 
     const handleError = (error: Error) => {
         console.error('QR Scan Error:', error)
-        toast.error(`>>> ${error}`)
+        //toast.error(`>>> ${error}`)
     };
 
   return (
