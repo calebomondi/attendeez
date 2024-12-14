@@ -20,6 +20,7 @@ const QRScanner: React.FC<QRScannerProps> = ({
     const [selectedDevice, setSelectDevice] = useState<string | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
+    const scanCompletedRef = useRef<boolean>(false);
 
     useEffect(() => {
         const initScanner = async () => {
@@ -48,15 +49,24 @@ const QRScanner: React.FC<QRScannerProps> = ({
     const startScanning = async () => {
         if (scanning || !codeReaderRef.current || !videoRef.current || !selectedDevice) return;
 
+        // Reset scan completed flag
+        scanCompletedRef.current = false;
+
         try {
             await codeReaderRef.current.decodeFromVideoDevice(
                 selectedDevice,
                 videoRef.current,
                 (result, error) => {
+                    // Prevent multiple scans
+                    if (scanCompletedRef.current) return;
+
                     if (result) {
+                        // Mark scan as completed
+                        scanCompletedRef.current = true;
                         onScan(result.getText());
                         stopScanning();
                     }
+
                     if (error) {
                         if (
                             error instanceof NotFoundException ||
