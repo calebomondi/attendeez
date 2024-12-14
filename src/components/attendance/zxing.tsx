@@ -39,9 +39,7 @@ const QRScanner: React.FC<QRScannerProps> = ({
         initScanner();
 
         return () => {
-            if (codeReaderRef.current) {
-                codeReaderRef.current.decodeFromVideoDevice(undefined, undefined, () => {});
-            }
+            stopScanning();
         };
     }, [onError]);
 
@@ -77,8 +75,16 @@ const QRScanner: React.FC<QRScannerProps> = ({
     };
 
     const stopScanning = () => {
+        //Completely reset the code reader
         if (codeReaderRef.current) {
-            codeReaderRef.current.decodeFromVideoDevice(undefined, undefined, () => {});
+            codeReaderRef.current = new BrowserMultiFormatReader();
+        }
+        //Stop the video stream if it exists and also stop media tracks if a stream is active
+        if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
+            const stream = videoRef.current.srcObject as MediaStream;
+            const tracks = stream.getTracks();
+            tracks.forEach((track: MediaStreamTrack) => track.stop());
+            videoRef.current.srcObject = null;
         }
         setScanning(false);
     };
