@@ -9,10 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 //import addMeToList from "./addMeToList"
 //import isWithinTimeLimit from "./withinTimeLimit"
 
-//import generateQRCode from "./generateqr"
 import QRScanner from "./zxing"
 import ResponsiveQRCode from "./generateqr2";
-//import { json } from "react-router-dom";
 
 export default function SignInAttendance({unit_id, started, student_id}:{unit_id:string, started:boolean, student_id:string}) {
     
@@ -87,10 +85,3 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     </>
   )
 }
-
-/*
-<div 
-    className=""
-    dangerouslySetInnerHTML={{ __html: generateQRCode(JSON.stringify(scannedData),400) }}
-/>
-*/
