@@ -40,13 +40,13 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         if (result.length > 0) {
             const jsonObj = JSON.parse(result)
             setScannedData(jsonObj)
-            toast.success(`scan success -> ${result}`)
+            toast.success(`Scanned ${result}`)
         }
     };
 
     const handleError = (error: Error) => {
         console.error('QR Scan Error:', error)
-        toast.error(`${error}`)
+        toast.error(`>>> ${error}`)
     };
 
   return (
