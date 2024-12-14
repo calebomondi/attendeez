@@ -40,6 +40,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         if (result.length > 0) {
             const jsonObj = JSON.parse(result)
             setScannedData(jsonObj)
+            toast.success(`scan success -> ${result}`)
         }
     };
 
