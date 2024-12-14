@@ -29,7 +29,12 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         fetchData()
 
     },[unit_id]);
-
+    /*
+    //upload students
+    function uploadMultiple(idArr:string) : void {
+        const jsonObj = JSON.parse(idArr);
+    }
+    */
     const handleScan = (result: string) => {
         if (result.length > 0) {
             const jsonObj = JSON.parse(result)
