@@ -39,7 +39,7 @@ const ResponsiveQRCode: React.FC<ResponsiveQRCodeProps> = ({
     }, []);
 
     return (
-        <figure ref={figureRef} className={`bg-red-500 w-full h-full ${className}`}>
+        <figure ref={figureRef} className={`w-full h-full ${className}`}>
             <QRCodeCanvas
                 className="w-full h-full"
                 value={value}

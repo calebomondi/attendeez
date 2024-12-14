@@ -65,7 +65,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
                         level="H"
                         bgColor="#ffffff"
                         fgColor="#000000"
-                        className="custom-class"
+                        className="flex justify-center items-center"
                     />
                 </div>
             )
