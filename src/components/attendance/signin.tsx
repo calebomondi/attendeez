@@ -56,7 +56,6 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     
     const handleScan = (result: string) => {
         if (result.length > 0) {
-            const jsonObj = JSON.parse(result)
             const students_list = checkIfAttendedSession(unit_id,student_id,result)
             console.log(`students_list2: ${students_list}`)
             if (students_list.length > 0) {
