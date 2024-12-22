@@ -36,7 +36,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         try {
             const inAttendance = await apiService.checkInAttendance(unit_id, student_id)
             if (inAttendance.started) {
-                const students_list = addMeToList(scanned, student_id, unit_id)
+                const students_list = await addMeToList(scanned, student_id, unit_id)
                 return students_list
             } else {
                 toast.error(`${student_id} Did Not Join Session! ⚠`)
