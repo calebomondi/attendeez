@@ -32,31 +32,27 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     },[unit_id]);
 
     //check if student attended session then add them to the list
-    async function checkIfAttendedSession(unit_id:string,student_id:string,scanned:string) : Promise<string> {
+    async function checkIfAttendedSession(unit_id: string, student_id: string, scanned: string): Promise<string> {
         try {
-            const fetchData = async () => {
-                const inAttendance = await apiService.checkInAttendance(unit_id,student_id)
-                if (inAttendance.started){
-                    const students_list = addMeToList(scanned,student_id,unit_id)
-                    console.log(`students_list1: ${students_list}`)
-                    return students_list
-                } else {
-                    toast.error(`${student_id} Did Not Join Session! ⚠`)
-                }  
+            const inAttendance = await apiService.checkInAttendance(unit_id, student_id)
+            if (inAttendance.started) {
+                const students_list = addMeToList(scanned, student_id, unit_id)
+                console.log(`students_list1: ${students_list}`)
+                return students_list
+            } else {
+                toast.error(`${student_id} Did Not Join Session! ⚠`)
+                return ""
             }
-
-            fetchData()
         } catch (error) {
             console.log(`upload-student-error: ${error}`)
             toast.error(`upload-student-error: ${error}`)
+            return ""
         }
-
-        return ""
     }
     
     const handleScan = async (result: string) => {
         if (result.length > 0) {
-            const students_list = await checkIfAttendedSession(unit_id,student_id,result)
+            const students_list = await checkIfAttendedSession(unit_id, student_id, result)
             console.log(`students_list2: ${students_list}`)
             if (students_list.length > 0) {
                 if (students_list === 'Y') 
