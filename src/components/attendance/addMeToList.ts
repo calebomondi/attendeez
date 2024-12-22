@@ -31,6 +31,8 @@ function addMeToList(scannedData:string,my_student_id:string,unit_id:string) : s
 
     //check if list is full
     if(data.length === limit && data[0] === my_student_id.split("-")[1]) {
+        console.log(`data.length: ${data.length}`)
+        console.log(`data[0]: ${data[0]}, my_student_id.split("-")[1]: ${my_student_id.split("-")[1]}`)
         try {
             const result = async () => {
                 const fetchData = await signInAttendance(data,unit_id)
