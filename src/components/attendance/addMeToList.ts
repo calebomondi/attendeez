@@ -1,9 +1,10 @@
 import apiService from "../../services/apiService"
+import { UploadAttendance } from "../../types"
 
 const limit = 2
 
 //upload to db if 5
-async function signInAttendance(data:string[],unit_id:string) : Promise<boolean[]> {
+async function signInAttendance(data:string[],unit_id:string) : Promise<UploadAttendance> {
     const params = new URLSearchParams()
     params.set('students',data.join(','))
     const url = `${params.toString()}`
@@ -12,14 +13,13 @@ async function signInAttendance(data:string[],unit_id:string) : Promise<boolean[
     //call apiservice to upload
     try {
         const fetchData = await apiService.uploadAttendance(unit_id,url)
-        console.log(`fetchData: ${fetchData[0]} - ${fetchData[1]}`)
+        console.log(`fetchData: ${fetchData.upload}`)
         return fetchData
     } catch (error) {
         console.log(`signInAttendance Error: ${error}`)
     }
 
-    const empty: boolean[] = []
-    return empty
+    return {"upload":[]}
 }
 
 function addMeToList(scannedData:string,my_student_id:string,unit_id:string) : string {
@@ -36,8 +36,8 @@ function addMeToList(scannedData:string,my_student_id:string,unit_id:string) : s
         try {
             const result = async () => {
                 const fetchData = await signInAttendance(data,unit_id)
-                if (fetchData.length === limit){
-                    console.log(`Completed Upload Of: ${fetchData.length}`)
+                if (fetchData.upload.length === limit){
+                    console.log(`Completed Upload Of: ${fetchData.upload.length}`)
                     return 'Y'
                 }
             }

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { TimeTable, ClassIsActive, ClassEndTime, Progress, TodaysClassesStatus, ConfirmAttendance, StudentInfo, ConfirmClass, JoinSession, InAttendance } from '../types';
+import { UploadAttendance ,TimeTable, ClassIsActive, ClassEndTime, Progress, TodaysClassesStatus, ConfirmAttendance, StudentInfo, ConfirmClass, JoinSession, InAttendance } from '../types';
 import API_URL from './apiurl';
 
 
@@ -103,9 +103,9 @@ const apiService = {
       throw error;
     }
   },
-  uploadAttendance: async (unit_id:string,students:string): Promise<boolean[]> => {
+  uploadAttendance: async (unit_id:string,students:string): Promise<UploadAttendance> => {
     try {
-      const response: AxiosResponse<boolean[]> = await axios.post(`${API_URL}/upload-multiple?unitId=${unit_id}&${students}`);
+      const response: AxiosResponse<UploadAttendance> = await axios.post(`${API_URL}/upload-multiple?unitId=${unit_id}&${students}`);
       console.log('uploadAttendance:', response.data);
       return response.data;
     } catch (error) {
