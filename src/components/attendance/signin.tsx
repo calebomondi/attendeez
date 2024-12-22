@@ -32,7 +32,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     },[unit_id]);
 
     //check if student attended session then add them to the list
-    async function checkIfAttendedSession(unit_id:string,student_id:string,scanned:string) : string {
+    async function checkIfAttendedSession(unit_id:string,student_id:string,scanned:string) : Promise<string> {
         try {
             const fetchData = async () => {
                 const inAttendance = await apiService.checkInAttendance(unit_id,student_id)
