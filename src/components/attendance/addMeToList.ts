@@ -49,7 +49,7 @@ function addMeToList(scannedData:string,my_student_id:string,unit_id:string) : s
 
     //convert back to stringify
     const jsonString = JSON.stringify(data)
-    console.log(`data -->: ${data}`)
+    console.log(`data -->: ${jsonString}`)
 
     return jsonString
 }
