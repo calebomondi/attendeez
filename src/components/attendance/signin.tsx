@@ -6,7 +6,7 @@ import apiService from "../../services/apiService"
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-//import addMeToList from "./addMeToList"
+import addMeToList from "./addMeToList"
 //import isWithinTimeLimit from "./withinTimeLimit"
 
 import QRScanner from "./zxing"
@@ -30,17 +30,42 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         fetchData()
 
     },[unit_id]);
-    /*
-    //upload students
-    function uploadMultiple(idArr:string) : void {
-        const jsonObj = JSON.parse(idArr);
+
+    //check if student attended session then add them to the list
+    function checkIfAttendedSession(unit_id:string,student_id:string,scanned:string) : string {
+        let students_list:string = ""
+
+        try {
+            const fetchData = async () => {
+                const inAttendance = await apiService.checkInAttendance(unit_id,student_id)
+                if (inAttendance.started){
+                    students_list = addMeToList(scanned,student_id,unit_id)
+                } else {
+                    toast.error(`${student_id} Did Not Join Session! ⚠`)
+                }  
+            }
+
+            fetchData()
+        } catch (error) {
+            console.log(`upload-student-error: ${error}`)
+            toast.error(`upload-student-error: ${error}`)
+        }
+
+        return students_list
     }
-    */
+    
     const handleScan = (result: string) => {
         if (result.length > 0) {
             const jsonObj = JSON.parse(result)
-            setScannedData(jsonObj)
-            toast.success(`Scanned ${result}`)
+            const students_list = checkIfAttendedSession(unit_id,`SCT-${jsonObj[0]}`,result)
+            if (students_list.length > 0) {
+                if (students_list === 'Y') 
+                    toast.success(`Upload Complete ✅`)
+                else {
+                    setScannedData(JSON.parse(students_list))
+                    toast.success(`Scan Complete, Next Person Can Scan!`)
+                }
+            } 
         }
     };
 
