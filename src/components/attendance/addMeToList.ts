@@ -12,7 +12,7 @@ async function signInAttendance(data:string[],unit_id:string) : Promise<boolean[
     //call apiservice to upload
     try {
         const fetchData = await apiService.uploadAttendance(unit_id,url)
-        console.log(`fetchData: ${fetchData}`)
+        console.log(`fetchData: ${fetchData[0]} - ${fetchData[1]}`)
         return fetchData
     } catch (error) {
         console.log(`signInAttendance Error: ${error}`)
