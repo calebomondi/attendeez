@@ -40,6 +40,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
                 const inAttendance = await apiService.checkInAttendance(unit_id,student_id)
                 if (inAttendance.started){
                     students_list = addMeToList(scanned,student_id,unit_id)
+                    console.log(`students_list1: ${students_list}`)
                 } else {
                     toast.error(`${student_id} Did Not Join Session! ⚠`)
                 }  
@@ -58,7 +59,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         if (result.length > 0) {
             const jsonObj = JSON.parse(result)
             const students_list = checkIfAttendedSession(unit_id,`SCT221-${jsonObj[0]}`,result)
-            console.log(`students_list: ${students_list}`)
+            console.log(`students_list2: ${students_list}`)
             if (students_list.length > 0) {
                 if (students_list === 'Y') 
                     toast.success(`Upload Complete ✅`)
