@@ -21,12 +21,14 @@ async function signInAttendance(data:string[],unit_id:string) : Promise<UploadAt
 }
 
 function addMeToList(scannedData:string,my_student_id:string,unit_id:string) : string {
+    console.log("Am in addMeToList!")
     //parse JSON string
     const data:string[] = JSON.parse(scannedData);
 
     //check if student already exists and length is <= 5, if not add
     if(!data.includes(my_student_id.split("-")[1]) && data.length < 6) {
         data.push(my_student_id.split("-")[1])
+        console.log(`data ->: ${data}`)
     }
 
     //check if list is full
@@ -35,7 +37,7 @@ function addMeToList(scannedData:string,my_student_id:string,unit_id:string) : s
             const result = async () => {
                 const fetchData = await signInAttendance(data,unit_id)
                 if (fetchData.upload.length === limit){
-                    console.log(`fetchData.upload.length: ${fetchData.upload.length}`)
+                    console.log(`Completed Upload Of: ${fetchData.upload.length}`)
                     return 'Y'
                 }
             }
@@ -47,6 +49,7 @@ function addMeToList(scannedData:string,my_student_id:string,unit_id:string) : s
 
     //convert back to stringify
     const jsonString = JSON.stringify(data)
+    console.log(`data -->: ${data}`)
 
     return jsonString
 }
