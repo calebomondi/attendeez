@@ -32,7 +32,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     },[unit_id]);
 
     //check if student attended session then add them to the list
-    function checkIfAttendedSession(unit_id:string,student_id:string,scanned:string) : string {
+    async function checkIfAttendedSession(unit_id:string,student_id:string,scanned:string) : string {
         try {
             const fetchData = async () => {
                 const inAttendance = await apiService.checkInAttendance(unit_id,student_id)
@@ -54,9 +54,9 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         return ""
     }
     
-    const handleScan = (result: string) => {
+    const handleScan = async (result: string) => {
         if (result.length > 0) {
-            const students_list = checkIfAttendedSession(unit_id,student_id,result)
+            const students_list = await checkIfAttendedSession(unit_id,student_id,result)
             console.log(`students_list2: ${students_list}`)
             if (students_list.length > 0) {
                 if (students_list === 'Y') 
