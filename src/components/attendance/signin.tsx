@@ -54,7 +54,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
             const students_list = await checkIfAttendedSession(unit_id, student_id, result)
             if (students_list.length > 0) {
                 if (students_list === 'Y') 
-                    toast.success(`Attendance Sign In Completed ✅`)
+                    toast.success(`Attendance Sign In Complete ✅`)
                 else {
                     setScannedData(JSON.parse(students_list))
                     toast.success(`Scan Complete, Next Person Can Scan!`)
