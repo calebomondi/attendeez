@@ -58,6 +58,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         if (result.length > 0) {
             const jsonObj = JSON.parse(result)
             const students_list = checkIfAttendedSession(unit_id,`SCT221-${jsonObj[0]}`,result)
+            console.log(`students_list: ${students_list}`)
             if (students_list.length > 0) {
                 if (students_list === 'Y') 
                     toast.success(`Upload Complete ✅`)
