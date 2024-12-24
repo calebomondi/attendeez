@@ -4,6 +4,8 @@ import apiService from "../../services/apiService";
 import { StudentInfo } from "../../types";
 import { useState, useEffect } from "react";
 
+import { useCookies } from "react-cookie";
+
 export default function MyAccount() {
   const {user} = useAuth();
   const email: string = user?.email || 'nah@notworking.com';
@@ -13,12 +15,28 @@ export default function MyAccount() {
       "name": "",
       "semester": ""
   })
+  const [cookies, setCookie] = useCookies([`myAccount_${email}`]);
 
   useEffect(() => {
+      //Try to load data from cookie
+      const cookieData = cookies[`myAccount_${email}`];
+      if (cookieData) {
+          console.log(`cookieData-Profile: ${cookieData}`);
+          setData(cookieData);
+      }
+
       const fetchData = async () => {
         try {
           const result = await apiService.getStudentInfo(email)
           setData(result)
+
+          // Store the new data in cookie
+          setCookie(`myAccount_${email}`, result, {
+            path: '/profile',
+            maxAge: 3600, // Cookie expires in 1 hour
+            secure: true,
+            sameSite: 'strict'
+          });
         } catch (error) {
           console.log(`Error: ${error}`)
         }
@@ -26,7 +44,7 @@ export default function MyAccount() {
 
       fetchData()
 
-  },[])
+  },[cookies,setCookie,email])
 
   console.log(`student: ${data}`)
   

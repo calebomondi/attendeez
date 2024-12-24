@@ -2,15 +2,33 @@ import apiService from "../../services/apiService";
 import { useEffect,useState } from "react";
 import { Progress } from "../../types";
 
+import { useCookies } from "react-cookie";
+
 export default function Info({student_id} : {student_id:string}) {
     const [data,setData] = useState<Progress[]>([]);
+    const [cookies, setCookie] = useCookies([`unitInfo_${student_id}`]);
 
     useEffect(() => {
+        //Try to load data from cookie
+        const cookieData = cookies[`unitInfo_${student_id}`];
+        if (cookieData) {
+            console.log(`cookieData-UnitsInfo: ${cookieData}`);
+            setData(cookieData);
+        }
+
         const fetchData = async () => {
             try {
                 const result = await apiService.getAttendanceProgress(student_id);
                 console.log(`progress: ${result}`)
                 setData(result)
+
+                // Store the new data in cookie
+                setCookie(`unitInfo_${student_id}`, result, {
+                    path: '/units-info',
+                    maxAge: 3600, // Cookie expires in 1 hour
+                    secure: true,
+                    sameSite: 'strict'
+                });
             } catch (error) {
                 console.log(`Error: ${error}`)
             }
@@ -18,7 +36,7 @@ export default function Info({student_id} : {student_id:string}) {
 
         fetchData();
 
-    },[student_id]);
+    },[student_id, cookies, setCookie]);
 
   return (
     <>
