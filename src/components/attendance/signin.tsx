@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import addMeToList from "./addMeToList"
 //import isWithinTimeLimit from "./withinTimeLimit"
 
-import { isMobileScreenWidth, isMobileUserAgent, isMobile } from "./isMobile";
+import isMobile from "./isMobile";
 
 import QRScanner from "./zxing"
 import ResponsiveQRCode from "./generateqr2";
@@ -18,8 +18,6 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     
     const [data,setData] = useState<ClassEndTime>({"end_time":"","session_end":false,"date":"1999-12-31"})
     const [scannedData, setScannedData] = useState<string[]>([student_id.split("-")[1]]);
-    const [isMobileUA, setIsMobileUA] = useState<boolean>(false)
-    const [isMobileSW, setIsMobileSW] = useState<boolean>(false)
     const [isMobileDevice, setIsMobileDevice] = useState<boolean>(false)
 
     //check if session ended
@@ -34,8 +32,6 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         }
         fetchData()
 
-        setIsMobileUA(isMobileUserAgent())
-        setIsMobileSW(isMobileScreenWidth())
         setIsMobileDevice(isMobile())
 
     },[unit_id]);
@@ -77,7 +73,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         //toast.error(`>>> ${error}`)
     };
 
-    console.log(`isMobileUA: ${isMobileUA}, isMobileSW: ${isMobileSW}, isMobileDevice: ${isMobileDevice}`)
+    console.log(`isMobileDevice: ${isMobileDevice}`)
 
   return (
     <>
