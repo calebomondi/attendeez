@@ -15,4 +15,17 @@ function isMobileScreenWidth(): boolean {
     return screenWidth < MOBILE_BREAKPOINT;
 }
 
-export { isMobileUserAgent, isMobileScreenWidth };
+function isMobile(): boolean {
+    // Check both screen width and device characteristics
+    const isMobileWidth = window.innerWidth < 768;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isMobileUserAgent = /android|iphone|ipad|ipod|opera mini|mobile|windows phone|blackberry/i
+      .test(navigator.userAgent);
+
+    console.log(`isMobileWidth: ${isMobileWidth}, isTouchDevice: ${isTouchDevice}, isMobileUserAgent: ${isMobileUserAgent}`);
+  
+    // Could use different combinations based on your needs
+    return isMobileWidth && (isTouchDevice || isMobileUserAgent);
+}
+
+export { isMobileUserAgent, isMobileScreenWidth, isMobile };
