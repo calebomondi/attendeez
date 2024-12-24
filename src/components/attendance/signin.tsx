@@ -73,15 +73,13 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         //toast.error(`>>> ${error}`)
     };
 
-    console.log(`isMobileDevice: ${isMobileDevice}`)
-
   return (
     <>
     <ToastContainer />    
     <div className={`w-full md:w-1/4 ${data.session_end ? 'border border-teal-500 rounded-lg' : ''} flex flex-col justify-center mt-2 p-2`}>
         {
             //generate qr
-            data.session_end && started && (
+            data.session_end && started && isMobileDevice && (
                 <div className="bg-white flex flex-col justify-center items-center p-2 rounded-lg">
                     <p className="text-red-500">The first to be scanned is the last to scan</p>
                     <p className="text-red-500">IF NOT</p>
@@ -98,7 +96,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         }
         {
             //scan qr
-            data.session_end && started && (
+            data.session_end && started && isMobileDevice && (
                 <div className="p-2">
                     <QRScanner 
                         onScan={handleScan} 
