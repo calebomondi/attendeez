@@ -18,7 +18,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     
     const [data,setData] = useState<ClassEndTime>({"end_time":"","session_end":false,"date":"1999-12-31"})
     const [scannedData, setScannedData] = useState<string[]>([student_id.split("-")[1]]);
-    const [isMobileUS, setIsMobileUS] = useState<boolean>(false)
+    const [isMobileUA, setIsMobileUA] = useState<boolean>(false)
     const [isMobileSW, setIsMobileSW] = useState<boolean>(false)
 
     //check if session ended
@@ -33,7 +33,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         }
         fetchData()
 
-        setIsMobileUS(isMobileUserAgent())
+        setIsMobileUA(isMobileUserAgent())
         setIsMobileSW(isMobileScreenWidth())
 
     },[unit_id]);
@@ -75,7 +75,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
         //toast.error(`>>> ${error}`)
     };
 
-    console.log(`isMobileUS: ${isMobileUS}, isMobileSW: ${isMobileSW}`)
+    console.log(`isMobileUA: ${isMobileUA}, isMobileSW: ${isMobileSW}`)
 
   return (
     <>
