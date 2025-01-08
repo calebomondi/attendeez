@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { useAuth } from "../auth/useAuth"
 
+import logo from '/attendeez.png'
+
 export default function NavBar() {
     const {signOut} = useAuth()
 
@@ -38,7 +40,13 @@ export default function NavBar() {
             </div>
         </div>
         <div className="navbar-center">
-            <Link to = "/" className='text-3xl'>Attendeez</Link>
+            <Link to = "/" className='text-3xl'>
+            <img 
+                src={logo} 
+                alt="" 
+                className="w-12"
+            />
+            </Link>
         </div>
         <div className="navbar-end">
             <div className="dropdown dropdown-end">
