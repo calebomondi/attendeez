@@ -14,16 +14,15 @@ export default function TodaysClasses({student_id }: {student_id:string }) {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
+      const fetchData = async () => {
         try {
             const result = await apiService.getTodaysClasses();
             setData(result)
         } catch (error) {
             console.log(`Error: ${error}`)
         };
-    }
-
-    fetchData();
+      }
+      fetchData();
 
     },[]);
 
@@ -32,7 +31,7 @@ export default function TodaysClasses({student_id }: {student_id:string }) {
     <div className="flex flex-col m-3">
       {data.length > 0 ? (
         data.map((item, index) => (
-          <div key={index} className="my-1 w-full flex flex-col md:flex-row border border-teal-600 rounded-lg cursor-pointer shadow-none hover:text-teal-500 hover:shadow-[0_0_10px_5px_rgba(0,128,128,0.85)] hover:bg-base-200 transition-shadow transition-colors duration-300" onClick={() => handleClick({unit_id: item.units.unit_id})}>
+          <div key={index} className="my-1 w-full flex flex-col md:flex-row border border-teal-600 rounded-lg cursor-pointer shadow-none hover:text-teal-500 hover:shadow-[0_0_10px_5px_rgba(0,128,128,0.85)] hover:bg-base-200 transition-colors duration-300" onClick={() => handleClick({unit_id: item.units.unit_id})}>
             <div className="md:w-2/3 w-full p-2">
               <p>{item.units.unit_id}</p>
               <p className="truncate">{item.units.unit_name}</p>
