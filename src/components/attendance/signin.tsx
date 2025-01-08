@@ -3,7 +3,7 @@ import { ClassEndTime} from "../../types"
 import { useEffect, useState } from "react"
 import apiService from "../../services/apiService"
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import addMeToList from "./addMeToList"
@@ -74,8 +74,7 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     };
 
   return (
-    <>
-    <ToastContainer />    
+    <>   
     <div className={`w-full md:w-1/4 ${data.session_end ? 'border border-teal-500 rounded-lg' : ''} flex flex-col justify-center mt-2 p-2`}>
         {
             //generate qr

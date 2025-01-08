@@ -5,7 +5,7 @@ import ConfirmStudentAttendance from "../home/confirmAttendance";
 import SignInAttendance from "./signin";
 import NavBar from "../navbar/navbar";
 
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Attendance({student_id} : {student_id:string}) {
@@ -90,7 +90,6 @@ export default function Attendance({student_id} : {student_id:string}) {
 
   return (
     <>
-    <ToastContainer />
     <NavBar />
     <main className="w-full mt-1 flex justify-center flex-col items-center p-2">
       {
