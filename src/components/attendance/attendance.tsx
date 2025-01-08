@@ -14,7 +14,7 @@ export default function Attendance({student_id} : {student_id:string}) {
   const unit = params.get('unit');
 
   const [data, setData] = useState<TodaysClassesStatus[]>([])
-  const [active, setActive] = useState<boolean>(false)
+  const [active, setActive] = useState<boolean>(true)
   const [attending, setAttending] = useState<boolean>(false)
   const [before, setBefore] = useState<boolean>(false)
 
@@ -33,7 +33,7 @@ export default function Attendance({student_id} : {student_id:string}) {
         try {
           const result = await apiService.getConfirmActiveClass(String(unit))
           if (result.length > 0)
-            setActive(true)
+            setActive(result[0].session_end)
         } catch (error) {
           console.error('Error checking active class', error)
         }
@@ -69,7 +69,7 @@ export default function Attendance({student_id} : {student_id:string}) {
     checkCurrentClassActive();
     amAttending();
     ifSessionEndBeforeTime();
-  }, [unit, student_id]);
+  }, [unit, student_id, attending]);
 
   //filter to get specific session
   const selectedClass = data.filter(item => item.units.unit_id === unit)
@@ -79,8 +79,10 @@ export default function Attendance({student_id} : {student_id:string}) {
     if (unit) {
       try {
         const result = await apiService.postJoinSession(String(unit), student_id)
-        if(result.success)
+        if(result.success) {
           toast.success("You Have Joined This Class Session.");
+          setAttending(true)
+        }
       } catch (error) {
         console.error('Error joining session', error)
         toast.error("Failed to join the session.");
@@ -103,13 +105,28 @@ export default function Attendance({student_id} : {student_id:string}) {
               <div className="flex justify-center p-1"><hr className="w-1/2 border-t-2 border-teal-500"/></div>
               {
                 item.status === 0 ? (
-                  <p className="flex justify-evenly my-3">
-                    <span className="font-mono">{item.progress}</span> | 
-                    <ConfirmStudentAttendance unit_id={item.units.unit_id} student_id={student_id}/>
-                  </p>
+                  !active ? (
+                    <div className="my-2 flex justify-center p-2">
+                      {
+                        attending ? (
+                            <p className="flex flex-row justify-center items-center">
+                              <span className="font-mono mr-1">You Are In Session</span>
+                              <span className="loading loading-ring loading-md"></span>
+                            </p>                          
+                        ) : (
+                          <button className="btn btn-success text-white" onClick={() => handleAttend()}>Join Session</button>
+                        )
+                      }
+                    </div>
+                  ): (
+                    <p className="flex justify-evenly w-full flex-center">
+                      ended
+                      <ConfirmStudentAttendance unit_id={item.units.unit_id} student_id={student_id}/>
+                    </p>
+                  )
                 ) : (
                   item.status === 1 ? (
-                    active ? (
+                    !active ? (
                       <div className="my-2 flex justify-center p-2">
                         {
                           attending ? (
