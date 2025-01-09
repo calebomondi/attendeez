@@ -9,7 +9,7 @@ export default function ConfirmStudentAttendance({student_id, unit_id} : {studen
         const fetchData = async () => {
             try {
                 const result = await apiService.getConfirmAttendance(student_id);
-                console.log(`result>: ${result}`)
+                console.log(`result>: ${JSON.stringify(result)}`)
                 setData(result);
             } catch (error) {
                 console.log(`Error CA: ${error}`);
@@ -20,17 +20,18 @@ export default function ConfirmStudentAttendance({student_id, unit_id} : {studen
 
     },[student_id]);
 
+    const filteredData = data.filter(item => item.unit_id === unit_id);
+    console.log(`filter: ${JSON.stringify(filteredData)}`)
+
   return (
     <>
         {
-            data.length > 0 ? (
-                data.filter(item => item.unit_id === unit_id).map(item => (
-                    <span key={item.unit_id}>
+            filteredData.length > 0 ? (
+                    <span>
                         {
-                            item.attendance[0].attended && (<>✅</>)
+                            filteredData[0].attendance[0].attended && (<>✅</>)
                         }
                     </span>
-                ))
             ) : (
                 <span>❌</span>
             )

@@ -73,7 +73,7 @@ export default function Attendance({student_id} : {student_id:string}) {
 
   //filter to get specific session
   const selectedClass = data.filter(item => item.units.unit_id === unit)
-
+  
   //handle attend
   const handleAttend = async () => {
     if (unit) {
@@ -155,9 +155,16 @@ export default function Attendance({student_id} : {student_id:string}) {
                         }
                       </div>
                     ): (
-                      <p className="flex justify-evenly my-3">
-                        <span className="font-mono">Session Not Yet Started</span>
-                      </p>
+                      before ? (
+                        <p className="flex justify-evenly w-full text-center">
+                          ended BT
+                          <ConfirmStudentAttendance unit_id={item.units.unit_id} student_id={student_id}/>
+                        </p>
+                      ) : (
+                        <p className="flex justify-evenly my-3">
+                          <span className="font-mono">Session Not Yet Started</span>
+                        </p>
+                      )
                     )
                   ) : (
                     item.status === 2 ? (
