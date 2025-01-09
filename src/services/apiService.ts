@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { UploadAttendance ,TimeTable, SessionStarted, ClassIsActive, ClassEndTime, Progress, TodaysClassesStatus, ConfirmAttendance, StudentInfo, ConfirmClass, JoinSession, InAttendance } from '../types';
+import { UploadAttendance ,TimeTable, ClassIsActive, ClassEndTime, Progress, TodaysClassesStatus, ConfirmAttendance, StudentInfo, ConfirmClass, JoinSession, InAttendance } from '../types';
 import API_URL from './apiurl';
 
 
@@ -97,16 +97,6 @@ const apiService = {
     try {
       const response: AxiosResponse<ClassIsActive> = await axios.get(`${API_URL}/end-before-time?unitId=${unit_id}`);
       console.log('endBeforeTime:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      throw error;
-    }
-  },
-  sessionStarted: async (unit_id:string): Promise<SessionStarted> => {
-    try {
-      const response: AxiosResponse<SessionStarted> = await axios.get(`${API_URL}/session-started?unitId=${unit_id}`);
-      console.error('sessionStarted-->', response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);

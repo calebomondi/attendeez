@@ -106,8 +106,3 @@ export type UploadAttendance = {
 export interface StudentData {
   "student_id":string[]
 }
-
-export type SessionStarted = {
-  "id": number,
-  "session_end": boolean
-}
