@@ -21,7 +21,6 @@ export default function ConfirmStudentAttendance({student_id, unit_id} : {studen
     },[student_id]);
 
     const filteredData = data.filter(item => item.unit_id === unit_id);
-    console.log(`filter: ${JSON.stringify(filteredData)}`)
 
   return (
     <>
