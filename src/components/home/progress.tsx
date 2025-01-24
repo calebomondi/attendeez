@@ -17,7 +17,6 @@ export default function AttendanceProgress({student_id} : {student_id:string}) {
             console.log(`cookieData: ${cookieData}`);
             setData(cookieData);
         }
-
         const fetchData = async () => {
             try {
                 const result = await apiService.getAttendanceProgress(student_id);
