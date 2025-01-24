@@ -1,7 +1,7 @@
 import apiService from "../../services/apiService"
 import { UploadAttendance } from "../../types"
 
-const limit = 2
+const limit = 3
 
 //upload to db if 5
 async function signInAttendance(data:string[],unit_id:string) : Promise<UploadAttendance> {
