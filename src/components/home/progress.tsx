@@ -14,13 +14,13 @@ export default function AttendanceProgress({student_id} : {student_id:string}) {
         //Try to load data from cookie
         const cookieData = cookies[`attendanceProgress_${student_id}`];
         if (cookieData) {
-            console.log(`cookieData: ${cookieData}`);
             setData(cookieData);
         }
         const fetchData = async () => {
             try {
                 const result = await apiService.getAttendanceProgress(student_id);
-                console.log(`progress: ${result}`)
+
+                console.log(`id: ${student_id} > progress: ${result}`)
                 setData(result)
 
                 // Store the new data in cookie

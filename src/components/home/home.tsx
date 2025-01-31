@@ -8,7 +8,6 @@ import { IsVisible } from "./isvisble";
 import NavBar from "../navbar/navbar";
 
 export default function Home({student_id} : {student_id:string}) {
-  
   return (
     <>
       <NavBar />

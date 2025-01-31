@@ -41,6 +41,8 @@ const AuthenticatedApp: React.FC = () => {
     },[])
 
     const student_id = data.student_id
+
+    console.log(`student_id: ${student_id}`)
   
     return (
         <Routes>
