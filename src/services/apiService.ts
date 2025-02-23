@@ -62,7 +62,6 @@ const apiService = {
     try {
       const studentId = encodeURIComponent(student_id)
       const response: AxiosResponse<JoinSession> = await axios.post(`${API_URL}/api/student/join-session?unitId=${unit_id}&studentId=${studentId}`);
-      console.log('postJoinSession:', response.data);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
