@@ -3,7 +3,7 @@ import { UploadAttendance } from "../../types"
 
 const limit = 3
 
-//upload to db if 5
+//upload to db if limit reached
 async function signInAttendance(data:string[],unit_id:string) : Promise<UploadAttendance> {
     const params = new URLSearchParams()
     params.set('students',data.join(','))
@@ -40,7 +40,7 @@ async function addMeToList(scannedData:string,my_student_id:string,unit_id:strin
                 return 'Y'
             }
         } catch (error) {
-            
+            console.log('Failed To Upload Student List To DB!')
         }            
     }
 

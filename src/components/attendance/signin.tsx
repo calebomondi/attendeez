@@ -37,26 +37,20 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
     },[unit_id]);
 
     //check if student attended session then add them to the list
-    async function checkIfAttendedSession(unit_id: string, student_id: string, scanned: string): Promise<string> {
+    async function addStudentToUploadList(unit_id: string, student_id: string, scanned: string): Promise<string> {
         try {
-            const inAttendance = await apiService.checkInAttendance(unit_id, student_id)
-            if (inAttendance.started) {
-                const students_list = await addMeToList(scanned, student_id, unit_id)
-                return students_list
-            } else {
-                toast.error(`${student_id} Did Not Join Session! ⚠`)
-                return ""
-            }
+            const students_list = await addMeToList(scanned, student_id, unit_id)
+            return students_list
         } catch (error) {
-            console.log(`upload-student-error: ${error}`)
-            toast.error(`upload-student-error: ${error}`)
+            console.log(`Adding To Attendance List Error: ${error}`)
+            toast.error(`Adding To Attendance List Error: ${error}`)
             return ""
         }
     }
     
     const handleScan = async (result: string) => {
         if (result.length > 0) {
-            const students_list = await checkIfAttendedSession(unit_id, student_id, result)
+            const students_list = await addStudentToUploadList(unit_id, student_id, result)
             if (students_list.length > 0) {
                 if (students_list === 'Y') 
                     toast.success(`Attendance Sign In Complete ✅`)
@@ -76,6 +70,14 @@ export default function SignInAttendance({unit_id, started, student_id}:{unit_id
   return (
     <>   
     <div className={`w-full md:w-1/4 ${data.session_end ? 'border border-teal-500 rounded-lg' : ''} flex flex-col justify-center mt-2 p-2`}>
+        {
+            data.session_end && !started && (
+                <div className="my-10 grid place-items-center">
+                    <p className="text-center font-semibold text-red-600 text-lg">You Did Not Join The Session!</p>
+                    <p className="text-center font-semibold text-red-600 text-lg">Can't Sign In For Attendance!</p>
+                </div>
+            )
+        }
         {
             //generate qr
             data.session_end && started && isMobileDevice && isWithinTimeLimit(data.end_time) && (
