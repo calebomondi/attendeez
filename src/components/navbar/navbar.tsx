@@ -54,7 +54,7 @@ export default function NavBar() {
                     <div className="w-10 rounded-full">
                     <img
                         alt="Tailwind CSS Navbar component"
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                        src="https://pbs.twimg.com/profile_images/1846119592659496960/sXAZAvFd_400x400.jpg" />
                     </div>
                 </div>
                 <ul

@@ -13,12 +13,9 @@ import { AuthProvider } from '../auth/authProvider';
 import { ProtectedRoute } from '../auth/protectedRoute';
 import { useAuth } from '../auth/useAuth';
 
-import { CookiesProvider } from 'react-cookie';
-
 const AuthenticatedApp: React.FC = () => {
     const { user } = useAuth();
     const email: string = user?.email || 'nah@notworking.com';
-    console.log(`user-email-> ${email}`)
 
     const [data,setData] = useState<StudentInfo>({
         "student_id": "",
@@ -41,8 +38,6 @@ const AuthenticatedApp: React.FC = () => {
     },[])
 
     const student_id = data.student_id
-
-    console.log(`student_id: ${student_id}`)
   
     return (
         <Routes>
@@ -96,9 +91,7 @@ export default function Header() {
     return (
         <Router>
             <AuthProvider>
-                <CookiesProvider>
-                    <AuthenticatedApp />
-                </CookiesProvider>
+                <AuthenticatedApp />
             </AuthProvider>
         </Router>
     );

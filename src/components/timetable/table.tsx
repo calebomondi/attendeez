@@ -2,40 +2,31 @@ import {useEffect,useState} from "react"
 import apiService from "../../services/apiService"
 import { TimeTable } from "../../types";
 
-import { useCookies } from "react-cookie";
-
 export default function Table({ day_id }: { day_id: number }) {
     const [data, setData] = useState<TimeTable[]>([]);
-    const [cookies, setCookie] = useCookies([`timetable_${day_id}`]);
 
     useEffect(() => {
-        //Try to load data from cookie
-        const cookieData = cookies[`timetable_${day_id}`];
-        if (cookieData) {
-            console.log(`cookieData-Table-${day_id}: ${cookieData}`);
-            setData(cookieData);
-        }
-
-        const fetchData = async () => {
+      //load from ls
+      const ls_data = localStorage.getItem('timetable')
+      if (ls_data) {
+        setData(JSON.parse(ls_data))
+      }
+      
+      //load from db
+      const fetchData = async () => {
         try {
             const result = await apiService.getTimeTable()
             setData(result)
-
-            // Store the new data in cookie
-            setCookie(`timetable_${day_id}`, result, {
-              path: '/',
-              maxAge: 3600, // Cookie expires in 1 hour
-              secure: true,
-              sameSite: 'strict'
-            });
+            
+            localStorage.setItem('timetable', JSON.stringify(result))
         } catch (error) {
             console.log(`Error: ${error}`)
         };
-    }
+      }
 
-    fetchData();
+      fetchData();
 
-  },[day_id]);
+    },[day_id]);
 
   // Filter data by day_id
   const filteredData = data.filter((item) => item.days.day_id === day_id);

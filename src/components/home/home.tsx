@@ -1,8 +1,5 @@
-//get todays classes
 import TodaysClasses from "../timetable/todaysClasses";
-//get attendance progress
 import AttendanceProgress from "./progress";
-//get IsVisible Function
 import { IsVisible } from "./isvisble";
 
 import NavBar from "../navbar/navbar";

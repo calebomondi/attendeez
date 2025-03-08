@@ -3,42 +3,31 @@ import { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Progress } from "../../types";
 
-import { useCookies } from "react-cookie";
-
 export default function AttendanceProgress({student_id} : {student_id:string}) {
-
     const [data,setData] = useState<Progress[]>([]);
-    const [cookies, setCookie] = useCookies([`attendanceProgress_${student_id}`]);
 
     useEffect(() => {
-        //Try to load data from cookie
-        const cookieData = cookies[`attendanceProgress_${student_id}`];
-        if (cookieData) {
-            setData(cookieData);
+        //load from ls
+        const ls_data = localStorage.getItem('progress')
+        if (ls_data) {
+            setData(JSON.parse(ls_data))
         }
+
+        //load from db
         const fetchData = async () => {
             try {
                 const result = await apiService.getAttendanceProgress(student_id);
-
-                console.log(`id: ${student_id} > progress: ${result}`)
                 setData(result)
 
-                // Store the new data in cookie
-                setCookie(`attendanceProgress_${student_id}`, result, {
-                    path: '/',
-                    maxAge: 3600, // Cookie expires in 1 hour
-                    secure: true,
-                    sameSite: 'strict'
-                });
+                localStorage.setItem('progress', JSON.stringify(result))
             } catch (error) {
                 console.log(`Error: ${error}`)
-                
             }
         }
 
         fetchData();
 
-    },[student_id, cookies, setCookie]);
+    },[student_id]);
 
     const navigate = useNavigate();
 
@@ -69,8 +58,8 @@ export default function AttendanceProgress({student_id} : {student_id:string}) {
                     </div>
                 </div>
             ))
-        ) : <div className="flex justify-center">
-                <span className="loading loading-infinity loading-lg"></span>
+        ) : <div className="flex justify-center text-lg my-5 font-semibold text-warning">
+                You Haven't Attendeed Any Sessions Yet!
             </div>
         }
     </>
