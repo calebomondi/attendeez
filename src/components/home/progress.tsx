@@ -59,7 +59,7 @@ export default function AttendanceProgress({student_id} : {student_id:string}) {
                 </div>
             ))
         ) : <div className="flex justify-center text-lg my-5 font-semibold text-warning">
-                You Haven't Attendeed Any Sessions Yet!
+                <p className="text-center">You Haven't Attendeed Any Sessions Yet!</p>
             </div>
         }
     </>
